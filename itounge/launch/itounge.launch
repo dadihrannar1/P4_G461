@@ -1,0 +1,6 @@
+<launch>
+
+    <node pkg="itounge" type="RAWitonguetalker.py" name="RAWitoungetalker"/>
+    <node pkg="itounge" type="ActionLibary.py" name="ActionLibrary"/>
+
+</launch>
