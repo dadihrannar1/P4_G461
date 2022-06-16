@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 ## License: Apache 2.0. See LICENSE file in root directory.
 ## Copyright(c) 2017 Intel Corporation. All Rights Reserved.
 
@@ -16,7 +17,23 @@ import segmentation as seg
 import KNearestNeighbour as knn
 import segmentation3 as TSeg
 from PIL import Image
+from std_msgs.msg import String, Header
+from processing.msg import process, RAWItongueOut
+import rospy
 
+rospy.init_node('Image processing', anonymous=True)
+pub = rospy.Publisher('camera', process, queue_size=10)
+message = process()
+choose = 0
+img_nr = 0
+itongue = 0
+
+def callback(data):
+    
+    callback.itongue = data.Sensor
+
+
+rospy.Subscriber('RAWItongueOut', RAWItongueOut, callback)
 
 
 bottleTrainingData = np.loadtxt('FeatureData/DAT/trainingBottlesNoCilindricality.dat', dtype=float, delimiter=',')
@@ -150,26 +167,57 @@ try:
         if key & 0xFF == ord('q') or key == 27:
             cv2.destroyAllWindows()
             break
+        
+        # Making coordinates control for the Itounge
+        if callback.itongue == 4 or choose == 1 or choose == 2 or choose == 3:
+            if choose == 0:
+                choose = 1
+            print(choose)
 
+            if callback.itongue == 1 or callback.itongue == 2 or callback.itongue == 3 or choose == 2 or choose == 3:
+                if choose == 1:
+                    choose = 2
+                print(choose)
+                if callback.itongue == 1 and choose == 3:
+                    print("message sent")
+                    message.a = cords[0][0]
+                    message.b = cords[0][1]
+                    message.c = cords[0][2]
+                    pub.publish(message)
+                    choose = 0
+                if callback.itongue == 2 and choose == 3:
+                    print("message sent")
+                    message.a = cords[1][0]
+                    message.b = cords[1][1]
+                    message.c = cords[1][2]
+                    pub.publish(message)
+                    choose = 0
+                if callback.itongue == 3 and choose == 3:
+                    print("message sent")
+                    message.a = cords[2][0]
+                    message.b = cords[2][1]
+                    message.c = cords[2][2]
+                    pub.publish(message)
+                    choose = 0
+                if choose != 0:
+                    choose = 3
         # if the key press is on of the following words in the if statements
         # If you try to print a coordinate for a contour that isn't there this will save the code
-        elif key == ord('b'):
-            try:
-                # Right now this is print, this is different on the ubuntu code
-                # If the ubuntu code this instead publishes the coordinates onto a topic
-                print("cor for contour 1:", cor[0])
-            except IndexError:
-                print("No coordinates")
+ if key == ord('b'):
+            message.a = cords[0][0]
+            message.b = cords[0][1]
+            message.c = cords[0][2]
+            pub.publish(message)
         elif key == ord('n'):
-            try:
-                print("cor for contour 2:", cor[1])
-            except IndexError:
-                print("No coordinates")
+            message.a = cords[1][0]
+            message.b = cords[1][1]
+            message.c = cords[1][2]
+            pub.publish(message)
         elif key == ord('m'):
-            try:
-                print("cor for contour 3:", cor[2])
-            except IndexError:
-                print("No coordinates")
+            message.a = cords[1][0]
+            message.b = cords[1][1]
+            message.c = cords[1][2]
+            pub.publish(message)
 
 finally:
     pipeline.stop()
