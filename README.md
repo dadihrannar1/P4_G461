@@ -1,8 +1,7 @@
 # P4_G461
 
-AAU Robotics BSc, P4: An Itongue controlled semi-autonomous system
-for individuals with tetraplegia
-=====================================================================
+AAU Robotics BSc, P4: A tongue controlled semi-autonomous system for individuals with tetraplegia
+=================================================================================================
 
 ## Objectives
 ------------------------------------------
