@@ -17,7 +17,7 @@ for individuals with tetraplegia
 ------------------------------------------
 This project aims to have a tetraplegic user manipulate the JACO2 robotic arm with an Itongue, by using Bluetooth communication. There are two control modes available: manual and semi-autonomous. In order to build the semi-autonomous mode and have the robot able to interact with its surroundings, an optical infrared active stereo sensor was used (Intel RealSense D435i). The stereo specifications are necessary to compute depth data about the surrounding objects (i.e. distance to the objects). The infrared functionality makes sure data can be captured in poor light conditions. And structured infrared light (active stereo) accounts for problems encountered with structureless surfaces. Thus, the optical sensor provides data about the environment. The data - images/ video, is then processed and essential features are extracted using computer vision. One of the outputs is the location of the object in 3D space. The Itoungue is then used to send pick-up commands to the JACO2 during semi-autonomous mode or manually move it to the pick-up target. There are in total five main ROS nodes which are communicating with each other, with the relationship presented in the image below. Additionally, a classifier is made to distinguish between bottle and not bottle objects. The goal behind having such a classifier is to increase the speed of the system by predefining movements for specific types of objects. 
 
-![Click to see image](https://github.com/[dadihrannar1]/[P4_G461]/blob/[main]/ROSNodeRelationship.png?raw=true)
+![Click to see image](ROSNodeRelationship.png)
 
 
 **Used tools:** JACO2 SDK, Python, OpenCV, ROS, Itongue SDK
